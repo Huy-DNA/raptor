@@ -3,8 +3,8 @@
   "version": "1.0.2",
   "description": "A lightweight application-managed GC",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
   "scripts": {
