@@ -1,5 +1,11 @@
 # @huy-dna/raptor
 
+## 1.0.4
+
+### Patch Changes
+
+- fix: make backInterner use Map
+
 ## 1.0.3
 
 ### Patch Changes
