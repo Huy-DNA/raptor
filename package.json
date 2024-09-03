@@ -1,0 +1,26 @@
+{
+  "name": "raptor",
+  "version": "1.0.0",
+  "description": "A lightweight application-managed GC",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [
+    "orinoco",
+    "gc"
+  ],
+  "author": "Huy-DNA",
+  "license": "Apache",
+  "devDependencies": {
+    "@changesets/cli": "^2.27.7",
+    "@eslint/js": "^9.9.1",
+    "@types/eslint__js": "^8.42.3",
+    "eslint": "^9.9.1",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.4.0"
+  }
+}
