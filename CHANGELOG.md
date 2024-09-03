@@ -1,5 +1,11 @@
 # @huy-dna/raptor
 
+## 1.2.0
+
+### Minor Changes
+
+- fix: allow multiple owners for an ownee
+
 ## 1.1.0
 
 ### Minor Changes

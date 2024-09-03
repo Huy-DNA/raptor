@@ -1,6 +1,6 @@
 {
   "name": "@huy-dna/raptor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A lightweight application-managed GC",
   "type": "module",
   "main": "./dist/index.cjs",
