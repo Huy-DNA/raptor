@@ -1,5 +1,11 @@
 # @huy-dna/raptor
 
+## 1.1.0
+
+### Minor Changes
+
+- perf: prevent memory leak when there are multiple owners and one owner is released -> ownee released
+
 ## 1.0.4
 
 ### Patch Changes
