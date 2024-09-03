@@ -3,18 +3,19 @@ import type { NonPrimitiveType } from './types';
 export class Raptor {
   #interner: Map<NonPrimitiveType, Symbol>;
   #backInterner: Map<Symbol, NonPrimitiveType>;
-  #finalizationRegistry: FinalizationRegistry<WeakRef<NonPrimitiveType>>;
+  #finalizationRegistry: FinalizationRegistry<NonPrimitiveType>;
 
   constructor () {
     this.#interner = new Map();
     this.#backInterner = new Map();
     this.#finalizationRegistry = new FinalizationRegistry((heldValue) => {
-      const unwrappedValue = heldValue.deref();
+      const unwrappedValue = heldValue;
       const symbol = unwrappedValue && this.#interner.get(unwrappedValue);
       if (symbol) {
         this.#interner.delete(heldValue);
         this.#backInterner.delete(symbol);
       }
+      this.#finalizationRegistry.unregister(heldValue);
     });
   }
 
@@ -26,7 +27,7 @@ export class Raptor {
     const symbol = Symbol('id');
     this.#interner.set(ownee, symbol);
     this.#backInterner.set(symbol, ownee);
-    this.#finalizationRegistry.register(owner, new WeakRef(ownee));
+    this.#finalizationRegistry.register(owner, ownee, ownee);
     return symbol;
   }
 
