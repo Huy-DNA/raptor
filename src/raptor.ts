@@ -1,8 +1,8 @@
 import type { NonPrimitiveType } from './types';
 
 export class Raptor {
-  #interner: WeakMap<NonPrimitiveType, symbol>;
-  #backInterner: Map<symbol, NonPrimitiveType>;
+  #interner: WeakMap<NonPrimitiveType, Symbol>;
+  #backInterner: Map<Symbol, NonPrimitiveType>;
   #finalizationRegistry: FinalizationRegistry<NonPrimitiveType>;
 
   constructor () {
@@ -17,7 +17,7 @@ export class Raptor {
     });
   }
 
-  link (owner: NonPrimitiveType, ownee: NonPrimitiveType): symbol | undefined {
+  link (owner: NonPrimitiveType, ownee: NonPrimitiveType): Symbol | undefined {
     if (this.#interner.has(ownee)) {
       return undefined;
     }
@@ -27,5 +27,13 @@ export class Raptor {
     this.#backInterner.set(symbol, ownee);
     this.#finalizationRegistry.register(owner, ownee);
     return symbol;
+  }
+
+  intern (obj: NonPrimitiveType): Symbol | undefined {
+    return this.#interner.get(obj);
+  }
+
+  internBack (symbol: Symbol): NonPrimitiveType | undefined {
+    return this.#backInterner.get(symbol);
   }
 }
