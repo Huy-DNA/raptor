@@ -1,5 +1,5 @@
 {
-  "name": "raptor",
+  "name": "@huy-dna/raptor",
   "version": "1.0.0",
   "description": "A lightweight application-managed GC",
   "type": "module",
