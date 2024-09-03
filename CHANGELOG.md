@@ -1,5 +1,11 @@
 # @huy-dna/raptor
 
+## 1.0.2
+
+### Patch Changes
+
+- chore: include dist
+
 ## 1.0.1
 
 ### Patch Changes
