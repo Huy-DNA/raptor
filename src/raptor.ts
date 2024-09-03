@@ -33,7 +33,8 @@ export class Raptor {
     return this.#interner.get(obj);
   }
 
-  internBack (symbol: Symbol): NonPrimitiveType | undefined {
-    return this.#backInterner.get(symbol);
+  internBack (symbol: Symbol): WeakRef<NonPrimitiveType> | undefined {
+    const obj = this.#backInterner.get(symbol);
+    return obj && new WeakRef(obj);
   }
 }
