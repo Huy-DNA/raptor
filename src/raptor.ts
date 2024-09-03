@@ -1,13 +1,31 @@
-import type { PrimitiveType } from './types';
+import type { NonPrimitiveType } from './types';
 
 export class Raptor {
-  #pool: Set<Exclude<unknown, PrimitiveType>>;
-  #finalizationRegistry: FinalizationRegistry<unknown>;
+  #interner: WeakMap<NonPrimitiveType, symbol>;
+  #backInterner: Map<symbol, NonPrimitiveType>;
+  #finalizationRegistry: FinalizationRegistry<NonPrimitiveType>;
 
-  constructor() {
-    this.#pool = new Set();
+  constructor () {
+    this.#interner = new WeakMap();
+    this.#backInterner = new Map();
     this.#finalizationRegistry = new FinalizationRegistry((heldValue) => {
-      this.#pool.delete(heldValue);
+      const symbol = this.#interner.get(heldValue);
+      if (symbol) {
+        this.#interner.delete(heldValue);
+        this.#backInterner.delete(symbol);
+      }
     });
+  }
+
+  link (owner: NonPrimitiveType, ownee: NonPrimitiveType): symbol | undefined {
+    if (this.#interner.has(ownee)) {
+      return undefined;
+    }
+
+    const symbol = Symbol('id');
+    this.#interner.set(ownee, symbol);
+    this.#backInterner.set(symbol, ownee);
+    this.#finalizationRegistry.register(owner, ownee);
+    return symbol;
   }
 }
