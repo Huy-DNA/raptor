@@ -20,6 +20,40 @@ What problem does this package solve?
 
 ## Usage
 
+### `Raptor.constructor()`
+
+Create a new reachability-relation manager.
+
+```typescript
+const raptor = new Raptor();
+```
+
+### `Raptor.link(owner, ownee)`
+
+Declare a reachability relation from `owner` to `ownee` - When `owner` is GC-ed, `ownee` will be internally dropped by Raptor *some time later*.
+
+This method returns the internal symbol of `ownee`.
+
+The internal symbol can be used as a non-owning proxy/handle to `ownee`.
+
+```typescript
+let owner = {};
+const ownee = new WeakRef({});
+const owneeSymbol = raptor.link(owner, ownee);
+owner = undefined; // `ownee` will be dropped some time later
+```
+
+### `Raptor.intern(ownee)`
+
+Return the internal symbol of `ownee`.
+
+### `Raptor.internBack(symbol)`
+
+Return the object that `symbol` is mapped to.
+
+
+### Example
+
 ```typescript
 import { Raptor } from '@huy-dna/raptor';
 
@@ -35,6 +69,6 @@ const owneeSymbol: Symbol = raptor.link(owner, ownee.deref()!); // declare a rea
 /* Retrieve the ownee */
 const ownee: WeakRef<unknown> | undefined = raptor.internBack(owneeSymbol);
 
-/* Release the `owner`, sometimes later `ownee` will also be dropped */
+/* Release the `owner`, some time later `ownee` will also be dropped */
 owner = undefined;
 ```
