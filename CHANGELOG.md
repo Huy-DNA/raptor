@@ -1,5 +1,11 @@
 # @huy-dna/raptor
 
+## 1.2.1
+
+### Patch Changes
+
+- chore: improve doc
+
 ## 1.2.0
 
 ### Minor Changes
