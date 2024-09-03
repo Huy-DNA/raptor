@@ -2,12 +2,12 @@ import type { NonPrimitiveType } from './types';
 
 export class Raptor {
   #interner: WeakMap<NonPrimitiveType, Symbol>;
-  #backInterner: Map<Symbol, NonPrimitiveType>;
+  #backInterner: WeakMap<Symbol, NonPrimitiveType>;
   #finalizationRegistry: FinalizationRegistry<NonPrimitiveType>;
 
   constructor () {
     this.#interner = new WeakMap();
-    this.#backInterner = new Map();
+    this.#backInterner = new WeakMap();
     this.#finalizationRegistry = new FinalizationRegistry((heldValue) => {
       const symbol = this.#interner.get(heldValue);
       if (symbol) {
