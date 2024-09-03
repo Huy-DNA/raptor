@@ -19,15 +19,15 @@ export class Raptor {
     });
   }
 
-  link (owner: NonPrimitiveType, ownee: NonPrimitiveType): Symbol | undefined {
+  link (owner: NonPrimitiveType, ownee: NonPrimitiveType): Symbol {
+    this.#finalizationRegistry.register(owner, ownee, ownee);
     if (this.#interner.has(ownee)) {
-      return undefined;
+      return this.#interner.get(ownee)!;
     }
 
     const symbol = Symbol('id');
     this.#interner.set(ownee, symbol);
     this.#backInterner.set(symbol, ownee);
-    this.#finalizationRegistry.register(owner, ownee, ownee);
     return symbol;
   }
 

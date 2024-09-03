@@ -28,7 +28,7 @@ const raptor = new Raptor();
 let owner = {};
 const ownee = new WeakRef({});
 
-const owneeSymbol: undefined | Symbol = raptor.link(owner, ownee); // declare a reachability relation from `owner` to `ownee`
+const owneeSymbol: Symbol = raptor.link(owner, ownee); // declare a reachability relation from `owner` to `ownee`
 
 /* ... */
 
