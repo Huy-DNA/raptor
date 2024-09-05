@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/no-wrapper-object-types: 0 */
 import type { NonPrimitiveType } from './types';
 
 export class Raptor {
@@ -22,6 +23,7 @@ export class Raptor {
   link (owner: NonPrimitiveType, ownee: NonPrimitiveType): Symbol {
     this.#finalizationRegistry.register(owner, ownee, ownee);
     if (this.#interner.has(ownee)) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       return this.#interner.get(ownee)!;
     }
 
