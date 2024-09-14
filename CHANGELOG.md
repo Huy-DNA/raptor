@@ -1,5 +1,11 @@
 # @huy-dna/raptor
 
+## 1.3.0
+
+### Minor Changes
+
+- change return type to symbol
+
 ## 1.2.4
 
 ### Patch Changes
