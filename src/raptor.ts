@@ -33,7 +33,7 @@ export class Raptor {
     return symbol;
   }
 
-  intern (obj: NonPrimitiveType): Symbol | undefined {
+  intern (obj: NonPrimitiveType): Symbol {
     const symbol = this.#interner.get(obj) || Symbol('id');
     if (!this.#interner.has(obj)) {
       this.#interner.set(obj, symbol);
