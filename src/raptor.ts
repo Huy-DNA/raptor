@@ -2,13 +2,13 @@
 import type { NonPrimitiveType } from './types';
 
 export class Raptor {
-  #interner: WeakMap<NonPrimitiveType, Symbol>;
-  #backInterner: WeakMap<Symbol, NonPrimitiveType>;
+  #interner: WeakMap<NonPrimitiveType, symbol>;
+  #backInterner: Map<symbol, NonPrimitiveType>;
   #finalizationRegistry: FinalizationRegistry<NonPrimitiveType>;
 
   constructor () {
     this.#interner = new WeakMap();
-    this.#backInterner = new WeakMap();
+    this.#backInterner = new Map();
     this.#finalizationRegistry = new FinalizationRegistry((heldValue) => {
       const unwrappedValue = heldValue;
       const symbol = unwrappedValue && this.#interner.get(unwrappedValue);
@@ -20,7 +20,7 @@ export class Raptor {
     });
   }
 
-  link (owner: NonPrimitiveType, ownee: NonPrimitiveType): Symbol {
+  link (owner: NonPrimitiveType, ownee: NonPrimitiveType): symbol {
     this.#finalizationRegistry.register(owner, ownee, ownee);
     if (this.#interner.has(ownee)) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -33,7 +33,7 @@ export class Raptor {
     return symbol;
   }
 
-  intern (obj: NonPrimitiveType): Symbol {
+  intern (obj: NonPrimitiveType): symbol {
     const symbol = this.#interner.get(obj) || Symbol('id');
     if (!this.#interner.has(obj)) {
       this.#interner.set(obj, symbol);
@@ -42,7 +42,7 @@ export class Raptor {
     return symbol;
   }
 
-  internBack (symbol: Symbol): WeakRef<NonPrimitiveType> | undefined {
+  internBack (symbol: symbol): WeakRef<NonPrimitiveType> | undefined {
     const obj = this.#backInterner.get(symbol);
     return obj && new WeakRef(obj);
   }
