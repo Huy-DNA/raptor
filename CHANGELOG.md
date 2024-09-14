@@ -1,5 +1,11 @@
 # @huy-dna/raptor
 
+## 1.2.2
+
+### Patch Changes
+
+- use WeakMaps for internal interners
+
 ## 1.2.1
 
 ### Patch Changes
