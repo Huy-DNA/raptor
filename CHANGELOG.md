@@ -1,5 +1,11 @@
 # @huy-dna/raptor
 
+## 1.2.3
+
+### Patch Changes
+
+- allow intern and persist obj temporarily
+
 ## 1.2.2
 
 ### Patch Changes
