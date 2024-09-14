@@ -1,5 +1,11 @@
 # @huy-dna/raptor
 
+## 1.2.4
+
+### Patch Changes
+
+- remove undefined from return type of `intern`
+
 ## 1.2.3
 
 ### Patch Changes
