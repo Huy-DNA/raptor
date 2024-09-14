@@ -34,7 +34,12 @@ export class Raptor {
   }
 
   intern (obj: NonPrimitiveType): Symbol | undefined {
-    return this.#interner.get(obj);
+    const symbol = this.#interner.get(obj) || Symbol('id');
+    if (!this.#interner.has(obj)) {
+      this.#interner.set(obj, symbol);
+      this.#backInterner.set(symbol, obj);
+    }
+    return symbol;
   }
 
   internBack (symbol: Symbol): WeakRef<NonPrimitiveType> | undefined {
