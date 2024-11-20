@@ -12,11 +12,20 @@ pnpm add @huy-dna/raptor
 
 ## Rationale
 
-This package allows declaring dependencies between 2 objects that otherwise are unrelated: `owner` and `ownee` - `ownee` will be deemed as unreachable when `owner` is GC-ed.
+This package allows declaring dependencies between 2 objects that otherwise are unrelated: `owner` and `ownee` - `ownee` will be deemed as unreachable when `owner` is GC-ed. To be more concrete, suppose we have two objects `A` and `B`. If whenever `B` is unused, `A` is also unused and safe to be garbage collect, we say that `B` is the `owner` and `A` is the `ownee`.
 
 What problem does this package solve?
- * JS runtime's mark-and-sweep can only safely collect an object if it's unreachable from the root objects.
- * With this package, you can make the `owner` a root object and declare a "reachability relation" from `owner` to `ownee`.
+ * JS runtime's mark-and-sweep can only safely collect an object if it's unreachable from the root objects. 
+ * With this package, we can hint that all accesses via `ownee` shall be made through `owner` only (even though it's still reachable from some root object). Effectively, `ownee` is unreachable if `owner` is reachable.
+
+Disclaimer:
+  * Garbage collection is complex and undeterministic on most runtime. Therefore, don't expect hinted unused objects to cleared immediately.
+  * Avoid deep chains of owners, for example: `Object <- Owner 1 <- Owner 2 <- Owner 3 <- Owner 4`.
+    Due to the limitation of this implementation, the following happens:
+    1. `Owner 4` becomes unreachable from roots.
+    2. After some time, `Owner 4` is garbage collected. Only then does the `Owner 3` become unreachable from roots.
+    3. After some time, `Owner 3` is garbage collected, and so on.
+    We can see that `owner` and `ownee` can not garbage collected in one scan. Therefore, deep chains of owners will take very long to clean up completely.
 
 ## Usage
 
