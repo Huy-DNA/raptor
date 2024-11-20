@@ -12,7 +12,9 @@ pnpm add @huy-dna/raptor
 
 ## Rationale
 
-This package allows declaring dependencies between 2 objects that otherwise are unrelated: `owner` and `ownee` - `ownee` will be deemed as unreachable when `owner` is GC-ed. To be more concrete, suppose we have two objects `A` and `B`. If whenever `B` is unused, `A` is also unused and safe to be garbage collect, we say that `B` is the `owner` and `A` is the `ownee`.
+This package allows declaring dependencies between 2 objects that otherwise are unrelated: `owner` and `ownee` - `ownee` will be deemed as unreachable when `owner` is GC-ed.
+
+Terminology: Suppose we have two objects `A` and `B`. If whenever `B` is unused, `A` is also unused and safe to be garbage collect, we say that `B` is the `owner` and `A` is the `ownee`.
 
 What problem does this package solve?
  * JS runtime's mark-and-sweep can only safely collect an object if it's unreachable from the root objects. 
